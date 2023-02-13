@@ -1,2 +1,0 @@
-An inequality (-1, 0, 1, 0, 0) x + 0 >= 0
-An inequality (0, -1, 0, 1, 0) x + 0 >= 0
