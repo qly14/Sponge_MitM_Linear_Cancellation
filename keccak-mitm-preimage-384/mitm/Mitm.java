@@ -121,13 +121,10 @@ public class Mitm {
 
     // Constraints
     factory.addfivexor_red(DA, DP, DC1);
-
     factory.addtwoxor_red(DP2, DP, DC12);
     factory.addTheta_red(DA, DP2, DB, DC2);
-
     factory.addSbox_ncnew(DB, DA);
-
-    factory.addDoMTheta(DA, dom);
+    factory.addDoMTheta_newmatch(DA, dom);
   
     GRBVar[][] beta = new GRBVar[5][64];
     for (int i = 0; i < 5; i++)
