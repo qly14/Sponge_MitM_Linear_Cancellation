@@ -60,7 +60,7 @@ public class MitmFactory {
       model.addConstr(Pi_init[bluei[i]][bluej[i]][bluek[i]][2], GRB.EQUAL, 0, ""); 
     }
 
-    int round = 0;
+      int round = 0;
 
 	//a0 a1 a2 --> a0 a1 a4
       double[][] t = {
@@ -112,8 +112,6 @@ public class MitmFactory {
               }
           }
   }  
-
-
   public void addfivexor_red(GRBVar[][][][][] DA, GRBVar[][][][] DP, GRBVar[][][] DC1) throws GRBException {
     GRBVar[][][][] DA_Allone = new GRBVar[DP.length][5][64][3];
 
@@ -199,6 +197,7 @@ public class MitmFactory {
           model.addConstr(DC2[round][i][j][k], GRB.LESS_EQUAL, DP2_Allzero[round][i][j][k], "");
         } 
   }
+
   public void addSbox_ncnew(GRBVar[][][][][] DB, GRBVar[][][][][] DA) throws GRBException {
     double[][] t = {{0, 0, 1, 0, 0, 0, 0, 0, -1},
 		    {1, 0, 0, 0, 0, 0, -1, 0, 0},
@@ -234,30 +233,29 @@ public class MitmFactory {
               Determine_AllOne(DA[round+1][i][j][k][l],DB[round][i][j][k][l],DB[round][(i+2)%5][j][k][l],DB_mul[round][i][j][k][l]);
         }
   }
-
-  public void addDoMTheta(GRBVar[][][][][] DA, GRBVar[][] dom) throws GRBException {
+    public void addDoMTheta_newmatch(GRBVar[][][][][] DA, GRBVar[][] dom) throws GRBException {
       
     int r=DA.length-1;
     GRBVar[][] Nowhite = new GRBVar[5][64];
-    GRBVar[][] Existred = new GRBVar[5][64];
-    GRBVar[][] Existblue = new GRBVar[5][64];
+    GRBVar[][] Existredorblue = new GRBVar[5][64];
+
     for (int i = 0; i < 5; i++) 
       for (int k = 0; k < 64; k++) {
         Nowhite[i][k]   = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "Nowhite_"+i+"_"+k);
-        Existred[i][k]   = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "Existred_"+i+"_"+k);
-        Existblue[i][k]   = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "Existblue_"+i+"_"+k);
+        Existredorblue[i][k]   = model.addVar(0.0, 1.0, 0.0, GRB.BINARY, "Existred_"+i+"_"+k);
     }
 
 
     for (int i = 0; i < 5; i ++)
       for (int k = 0; k < 64; k ++) {
         Determine_AllOne(Nowhite[i][k],     DA[r][i][i][k][1],DA[r][(i-1+5)%5][0][k][1],DA[r][(i-1+5)%5][1][k][1],DA[r][(i-1+5)%5][2][k][1],DA[r][(i-1+5)%5][3][k][1],DA[r][(i-1+5)%5][4][k][1],DA[r][(i+1)%5][0][(k-1+64)%64][1],DA[r][(i+1)%5][1][(k-1+64)%64][1],DA[r][(i+1)%5][2][(k-1+64)%64][1],DA[r][(i+1)%5][3][(k-1+64)%64][1],DA[r][(i+1)%5][4][(k-1+64)%64][1]);
-        Determine_Existzero(Existred[i][k], DA[r][i][i][k][0],DA[r][(i-1+5)%5][0][k][0],DA[r][(i-1+5)%5][1][k][0],DA[r][(i-1+5)%5][2][k][0],DA[r][(i-1+5)%5][3][k][0],DA[r][(i-1+5)%5][4][k][0],DA[r][(i+1)%5][0][(k-1+64)%64][0],DA[r][(i+1)%5][1][(k-1+64)%64][0],DA[r][(i+1)%5][2][(k-1+64)%64][0],DA[r][(i+1)%5][3][(k-1+64)%64][0],DA[r][(i+1)%5][4][(k-1+64)%64][0]);
-        Determine_Existzero(Existblue[i][k],DA[r][i][i][k][2],DA[r][(i-1+5)%5][0][k][2],DA[r][(i-1+5)%5][1][k][2],DA[r][(i-1+5)%5][2][k][2],DA[r][(i-1+5)%5][3][k][2],DA[r][(i-1+5)%5][4][k][2],DA[r][(i+1)%5][0][(k-1+64)%64][2],DA[r][(i+1)%5][1][(k-1+64)%64][2],DA[r][(i+1)%5][2][(k-1+64)%64][2],DA[r][(i+1)%5][3][(k-1+64)%64][2],DA[r][(i+1)%5][4][(k-1+64)%64][2]);
+        Determine_Existzero(Existredorblue[i][k], DA[r][i][i][k][0],DA[r][(i-1+5)%5][0][k][0],DA[r][(i-1+5)%5][1][k][0],DA[r][(i-1+5)%5][2][k][0],DA[r][(i-1+5)%5][3][k][0],DA[r][(i-1+5)%5][4][k][0],DA[r][(i+1)%5][0][(k-1+64)%64][0],DA[r][(i+1)%5][1][(k-1+64)%64][0],DA[r][(i+1)%5][2][(k-1+64)%64][0],DA[r][(i+1)%5][3][(k-1+64)%64][0],DA[r][(i+1)%5][4][(k-1+64)%64][0],
+						  DA[r][i][i][k][2],DA[r][(i-1+5)%5][0][k][2],DA[r][(i-1+5)%5][1][k][2],DA[r][(i-1+5)%5][2][k][2],DA[r][(i-1+5)%5][3][k][2],DA[r][(i-1+5)%5][4][k][2],DA[r][(i+1)%5][0][(k-1+64)%64][2],DA[r][(i+1)%5][1][(k-1+64)%64][2],DA[r][(i+1)%5][2][(k-1+64)%64][2],DA[r][(i+1)%5][3][(k-1+64)%64][2],DA[r][(i+1)%5][4][(k-1+64)%64][2]);
         
-      Determine_AllOne(dom[i][k],Nowhite[i][k],Existred[i][k],Existblue[i][k]);
+      Determine_AllOne(dom[i][k],Nowhite[i][k],Existredorblue[i][k]);
     } 
   }
+
 
   public void betaConstraints(GRBVar[][][][] Pi_init, GRBVar[][] beta) throws GRBException {
     double[] t = {1, 1, -2};
