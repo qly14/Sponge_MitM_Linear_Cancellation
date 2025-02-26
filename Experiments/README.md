@@ -1,3 +1,1 @@
-- `Experimental_MitM_preimage_attacks_on_Keccak_and_Ascon`: the details and results of the experimental attacks on Ascon-Xof and Keccak[r=40, c=160]
 - `ascon_3r_pre.cpp`: the code of the experiment on 3-round Ascon-Xof with 32-bit partial target. To compile, use the command `g++ ascon_3r_pre.cpp -o ascon_3r`. To run, use the command `./ascon_3r`
-- `keccak_3r_pre.cpp`: the code of the experiment on 3-round Keccak[r=40, c=160] with 24-bit partial target. To compile, use the command `g++ keccak_3r_pre.cpp -o keccak_3r`. To run, use the command `./keccak_3r`
